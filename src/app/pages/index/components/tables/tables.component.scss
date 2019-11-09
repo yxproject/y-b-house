@@ -1,0 +1,20 @@
+.search-container{
+    margin-bottom: 15px;
+}
+.full-table{
+    th{white-space:nowrap;text-align:center;}
+    td{white-space:nowrap;text-align:left;vertical-align:top;}
+    b{display:inline-block;width:120px;white-space:nowrap;text-align:left;}
+    em{font-family:"shuzi";font-size:18px;font-style:normal;color:#f60;font-weight:bold;display:inline-block;text-align:right;padding:0 3px 0 10px;width:70px;}
+    .ntxt{font-size:14px;color:#f60;font-family:"幼圆";}
+    .light{
+        background:rgb(238, 151, 93) !important;color:#fff !important;
+    }
+    .light2{
+        background:rgb(233, 108, 108) !important;color:#fff !important;
+    }
+}
+.p-top{
+    border-top:solid 1px #e8e8e8;margin: -17px -15px;padding: 17px 15px;text-align:center;
+    height:70px;
+}

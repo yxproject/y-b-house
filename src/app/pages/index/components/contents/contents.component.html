@@ -1,0 +1,15 @@
+
+<div class="search-container">
+    <app-searchs (searchEvent)="searchHandler($event, contable)"></app-searchs>
+</div>
+
+<nz-tabset>
+    <nz-tab nzTitle="公房">
+        <button nz-button nzType="primary" [routerLink]="['/main/gfadd']">添加</button>
+        <br/><br/>
+        <app-tables #contable></app-tables>
+    </nz-tab>
+    <nz-tab nzTitle="私房">
+        Content of Tab Pane 2
+    </nz-tab>
+</nz-tabset>

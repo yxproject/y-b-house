@@ -1,0 +1,397 @@
+<nz-modal [nzWidth]="1200" class="mymodal" [(nzVisible)]="isVisible" nzTitle="家庭成员维护" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()">
+    <nz-table #editRowTable nzBordered [nzShowPagination]="false" [nzData]="listOfData" class="mytable" [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>关系</th>
+                <th>父亲</th>
+                <th>身份证号</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>是否在册</th>
+                <th>是否居住</th>
+                <th>工作单位</th>
+                <th>联系电话</th>
+                <th>是否主张权益人</th>
+                <th>是否权属文件证明人</th>
+                <th>是否享受过保障性住房</th>
+                <th>是否已婚</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-template ngFor let-data [ngForOf]="editRowTable.data">
+            <tr class="editable-row">
+                <td *ngIf="data.sfyh == '是'" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"></td>
+                <td class="t-center" *ngIf="data.sfyh != '是'"><i nz-icon nzType="user" nzTheme="outline"></i></td>
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl1">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.xm }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl1>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.xm" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl2">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.gx }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl2>
+                        <nz-select class="editinp" [(ngModel)]="data.gx" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="本人" nzLabel="本人"></nz-option>
+                            <nz-option nzValue="父亲" nzLabel="父亲"></nz-option>
+                            <nz-option nzValue="爷爷" nzLabel="爷爷"></nz-option>
+                            <nz-option nzValue="父子" nzLabel="父子"></nz-option>
+                            <nz-option nzValue="父女" nzLabel="父女"></nz-option>
+                            <nz-option nzValue="孙子" nzLabel="孙子"></nz-option>
+                            <nz-option nzValue="孙女" nzLabel="孙女"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl20x">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            选择父级
+                        </div>
+                    </div>
+                    <nz-select #editTpl20x>
+                        <nz-select class="editinp" [(ngModel)]="data.gx" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option *ngFor="let cd of currentSavePerson" nzValue="cd.id" nzLabel="cd.xm"></nz-option>
+                        </nz-select>
+                    </nz-select>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl3">
+                        <div class="editable-cell-value-wrap" style="width:140px;" (click)="startEdit(data.id, $event)">
+                            {{ data.sfzh }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl3>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.sfzh" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl4">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.xb }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl4>
+                        <nz-select class="editinp" [(ngModel)]="data.xb" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="男" nzLabel="男"></nz-option>
+                            <nz-option nzValue="女" nzLabel="女"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl5">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.nl }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl5>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.nl" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl6">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.sfzc }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl6>
+                        <nz-select class="editinp" [(ngModel)]="data.sfzc" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                            <nz-option nzValue="其他" nzLabel="其他"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl7">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.sfjz }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl7>
+                        <nz-select class="editinp" [(ngModel)]="data.sfjz" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl7x">
+                        <div class="editable-cell-value-wrap" style="width:150px;" (click)="startEdit(data.id, $event)">
+                            {{ data.gzdw }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl7x>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.gzdw" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl8">
+                        <div class="editable-cell-value-wrap" style="width:100px;" (click)="startEdit(data.id, $event)">
+                            {{ data.lxdh }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl8>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.lxdh" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl9">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.zzqyr }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl9>
+                        <nz-select class="editinp" [(ngModel)]="data.zzqyr" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl10">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.qswjzmr }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl10>
+                        <nz-select class="editinp" [(ngModel)]="data.qswjzmr" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl11">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.xsgbzxzf }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl11>
+                        <nz-select class="editinp" [(ngModel)]="data.xsgbzxzf" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.id; else editTpl12">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.id, $event)">
+                            {{ data.sfyh }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl12>
+                        <nz-select class="editinp" (ngModelChange)="changeStatus($event, data)" [(ngModel)]="data.sfyh" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                        <!-- <a (click)="addPO(i+1)" class="editable-cell" nz-button style="margin-left:6px;" nzType="primary" nzSize="small" *ngIf="data.sfyh == '是'" >添加配偶</a> -->
+                    </ng-template>
+                </td>
+
+                <td>
+                    <a nz-popconfirm nzTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.id)">删除</a>
+                </td>
+            </tr>
+            <tr class="editable-row" [nzExpand]="mapOfExpandData[data.id]" *ngIf="data.fq">
+                <td class="t-center"><i nz-icon nzType="woman" nzTheme="outline"></i></td>
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl1">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.xm }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl1>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.fq.xm" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl2">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.gx }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl2>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.gx" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="配偶" nzLabel="配偶"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl3">
+                        <div class="editable-cell-value-wrap" style="width:140px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.sfzh }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl3>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.fq.sfzh" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl4">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.xb }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl4>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.xb" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="男" nzLabel="男"></nz-option>
+                            <nz-option nzValue="女" nzLabel="女"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl5">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.nl }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl5>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.fq.nl" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl6">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.sfzc }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl6>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.sfzc" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                            <nz-option nzValue="其他" nzLabel="其他"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl7">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.sfjz }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl7>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.sfjz" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl7x">
+                        <div class="editable-cell-value-wrap" style="width:150px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.gzdw }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl7x>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.fq.gzdw" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl8">
+                        <div class="editable-cell-value-wrap" style="width:100px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.lxdh }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl8>
+                        <input class="editinp" type="text" nz-input [(ngModel)]="data.fq.lxdh" />
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl9">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.zzqyr }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl9>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.zzqyr" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl10">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.qswjzmr }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl10>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.qswjzmr" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl11">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.xsgbzxzf }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl11>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.xsgbzxzf" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                    </ng-template>
+                </td>
+
+                <td>
+                    <div class="editable-cell" *ngIf="editId !== data.fq.id; else editTpl12">
+                        <div class="editable-cell-value-wrap" style="width:88px;" (click)="startEdit(data.fq.id, $event)">
+                            {{ data.fq.sfyh }}
+                        </div>
+                    </div>
+                    <ng-template #editTpl12>
+                        <nz-select class="editinp" [(ngModel)]="data.fq.sfyh" nzPlaceHolder="请选择" style="width:88px;">
+                            <nz-option nzValue="是" nzLabel="是"></nz-option>
+                            <nz-option nzValue="否" nzLabel="否"></nz-option>
+                        </nz-select>
+                        <!-- <a (click)="addPO(i+1)" class="editable-cell" nz-button style="margin-left:6px;" nzType="primary" nzSize="small" *ngIf="data.fq.sfyh == '是'" >添加配偶</a> -->
+                    </ng-template>
+                </td>
+
+                <td>
+                    <a nz-popconfirm nzTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.fq.id)">删除</a>
+                </td>
+            </tr>
+            </ng-template>
+        </tbody>
+    </nz-table>
+</nz-modal>

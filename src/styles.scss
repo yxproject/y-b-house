@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+
+.ant-descriptions-bordered .ant-descriptions-item-label{
+    max-width: 200px;
+    white-space: normal;
+    word-break: break-all;
+}
+.lerror{
+    color:#f00;
+}
+.ierror{
+    border:solid 1px #f00;
+}
+
+.inp .ant-select-selection{border:none;background:none;}
+
+@font-face {
+    font-family: "shuzi";
+    src: url("./assets/font/DS-DIGI.TTF");
+}
+.shuzi{
+    font-family:"shuzi";
+}
+
+.mymodal .ant-modal-body{
+    height:600px;
+    overflow:auto;
+}
+
+/* chart */
+.edit-wrapper{
+    width:228px !important;
+}
+.edit-photo{
+    background:#2A3D62 !important;
+}
+.ch-family-other .ant-tabs{
+    background:#fff;
+    height:505px;
+}
+.ch-family-other .ant-tabs-bar{
+    margin:0;
+}
+.ch-family-other .ant-tabs .ant-tabs-top-content > .ant-tabs-tabpane, .ant-tabs .ant-tabs-bottom-content > .ant-tabs-tabpane{
+    height:100%;
+}

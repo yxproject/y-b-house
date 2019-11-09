@@ -1,0 +1,7 @@
+{
+	"/y-b-house": {
+		"target": "http://47.92.86.51/y-b-house/",
+		"secure": false,
+		"pathRewrite": {"^/y-b-house" : ""}
+	}
+}

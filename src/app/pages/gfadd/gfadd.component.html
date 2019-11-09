@@ -1,0 +1,283 @@
+<div class="add-container">
+    <div class="title">
+        <a href="#">公房信息{{isUpdate ? '修改' : '添加'}}</a>
+    </div>
+    <div class="lf-baseinfor">
+        <div class="b-title">基本信息</div>
+        <p class="mform-line">
+            <label class="lbl">房屋序号：</label>
+            <input class="inp" nz-input type="text" [(ngModel)]="gf.fwxh" />
+        </p>
+        <p class="mform-line">
+            <label class="lbl">房屋座落：</label>
+            <input class="inp" nz-input type="text" [(ngModel)]="gf.fwzl" />
+        </p>
+        <p class="mform-line">
+            <label class="lbl vt">院落简介：</label>
+            <textarea class="inp" nz-input rows="" cols="" style="height:90px;" [(ngModel)]="gf.fwjj"></textarea>
+        </p>
+
+        <div class="b-title" style="margin-top:40px;">房屋信息</div>
+
+        <p class="mform-line">
+            <label class="lbl">电话(部)：</label>
+            <input class="inp sml" nz-input type="text" [(ngModel)]="gf.dhs" />
+            <label class="lbl" style="margin-left:13px;">空调(台)：</label>
+            <input class="inp sml" nz-input type="text" [(ngModel)]="gf.kts" />
+        </p>
+        <p class="mform-line">
+            <label class="lbl">有线电视(端)：</label>
+            <input class="inp sml" nz-input type="text" [(ngModel)]="gf.yxdzs" />
+            <label class="lbl" style="margin-left:13px;">热水器(个)：</label>
+            <input class="inp sml" nz-input type="text" [(ngModel)]="gf.rsqs" />
+        </p>
+        <div class="dot-line"></div>
+        <p class="mform-line">
+            <label class="lbl vm">全院土地面积：<br/>（㎡）</label>
+            <input class="inp sml" nz-input type="text" [(ngModel)]="gf.qytdmj" />
+            <label class="lbl vm" style="margin-left:13px;">房屋面积合计：<br/>（㎡）</label>
+            <input class="inp sml" nz-input type="text" [(ngModel)]="gf.fwmjhj" />
+        </p>
+    </div>
+    <div class="rg-family">
+        <div class="b-title">家庭成员</div>
+        <p class="mform-line" style="margin-top:10px;">
+            <label class="lbl">被搬迁人数量：</label>
+            <input class="inp" nz-input type="text" style="width:100px;" [(ngModel)]="gf.bbqrsl" />
+            <label class="lbl" style="margin-left:40px;">被搬迁人代际数：</label>
+            <input class="inp" nz-input type="text" style="width:100px;" [(ngModel)]="gf.bbqdjs" />
+
+            <button style="float:right;" nz-button nzType="primary" (click)="pers.showModal()">添加家庭成员</button>
+        </p>
+        <div class="ch-family" id="orgchart"></div>
+        <!-- *ngIf="showFamily || isSeeFamily" -->
+        <div *ngIf="showFamily || isSeeFamily" class="ch-family-other">
+            <div class="cy-infor">
+                <div class="cy-title">信息编辑
+                    <button (click)="closeEdit()" nz-button nzType="danger" nzShape="circle" nzSize="small">
+                        <i nz-icon nzType="close" nzTheme="outline"></i>
+                    </button>
+                    <button *ngIf="!isSeeFamily" (click)="saveEdit()" nz-button nzType="primary" nzShape="circle" nzSize="small">
+                        <i nz-icon nzType="save" nzTheme="outline"></i>
+                    </button>
+                </div>
+                <nz-tabset>
+                    <nz-tab [nzTitle]="person.xm + '(' + person.gx + ')'">
+                        <div class="cy-content">
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">姓名：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" style="width:178px;" [(ngModel)]="person.xm" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">关系：</label>
+                                <nz-select [disabled]="isSeeFamily || isEditFamily" [(ngModel)]="person.gx" class="inp sml" nzAllowClear nzPlaceHolder="请选择" style="width:178px;">
+                                    <nz-option nzValue="本人" nzLabel="本人"></nz-option>
+                                    <nz-option nzValue="配偶" nzLabel="配偶"></nz-option>
+                                    <nz-option nzValue="父子" nzLabel="父子"></nz-option>
+                                    <nz-option nzValue="母子" nzLabel="母子"></nz-option>
+                                    <nz-option nzValue="孙子" nzLabel="孙子"></nz-option>
+                                    <nz-option nzValue="孙女" nzLabel="孙女"></nz-option>
+                                </nz-select>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">身份证号：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" style="width:178px;" [(ngModel)]="person.sfzh" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">性别：</label>
+                                <nz-radio-group [disabled]="isSeeFamily" [(ngModel)]="person.xb">
+                                    <label nz-radio nzValue="男">男</label>
+                                    <label nz-radio nzValue="女">女</label>
+                                </nz-radio-group>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">年龄：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" [(ngModel)]="person.nl" nz-input type="text" style="width:178px;" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">是否在册：</label>
+                                <nz-radio-group [disabled]="isSeeFamily" [(ngModel)]="person.sfzc">
+                                    <label nz-radio nzValue="是">是</label>
+                                    <label nz-radio nzValue="否">否</label>
+                                    <label nz-radio nzValue="其他">其他</label>
+                                </nz-radio-group>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">是否居住：</label>
+                                <nz-radio-group [disabled]="isSeeFamily" [(ngModel)]="person.sfjz">
+                                    <label nz-radio nzValue="是">是</label>
+                                    <label nz-radio nzValue="否">否</label>
+                                </nz-radio-group>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">工作单位：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" [(ngModel)]="person.gzdw" style="width:178px;" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">联系电话：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" [(ngModel)]="person.lxdh" style="width:178px;" />
+                            </p>
+                            <p class="mform-line" style="margin:0px 0 0 0;">
+                                <label class="lbl" style="width:90px"></label>
+                                <label [disabled]="isSeeFamily" nz-checkbox [(ngModel)]="person.zzqyr">主张权益人</label>
+                            </p>
+                            <p class="mform-line" style="margin:0px 0 0 0;">
+                                <label class="lbl" style="width:90px"></label>
+                                <label [disabled]="isSeeFamily" nz-checkbox [(ngModel)]="person.qswjzmr">权属文件证明人</label>
+                            </p>
+                            <p class="mform-line" style="margin:0px 0 0 0;">
+                                <label class="lbl" style="width:90px"></label>
+                                <label [disabled]="isSeeFamily" nz-checkbox [(ngModel)]="person.xsgbzxzf">享受过保障性住房</label>
+                            </p>
+                        </div>
+                    </nz-tab>
+                    <nz-tab *ngIf="person.fq" [nzTitle]="person.fq.xm + '(' + person.fq.gx + ')'">
+                        <div class="cy-content">
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">姓名：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" style="width:178px;" [(ngModel)]="person.fq.xm" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">关系：</label>
+                                <nz-select [disabled]="isSeeFamily || isEditFamily" [(ngModel)]="person.fq.gx" class="inp sml" nzAllowClear nzPlaceHolder="请选择" style="width:178px;">
+                                    <nz-option nzValue="本人" nzLabel="本人"></nz-option>
+                                    <nz-option nzValue="配偶" nzLabel="配偶"></nz-option>
+                                    <nz-option nzValue="父子" nzLabel="父子"></nz-option>
+                                    <nz-option nzValue="母子" nzLabel="母子"></nz-option>
+                                    <nz-option nzValue="孙子" nzLabel="孙子"></nz-option>
+                                    <nz-option nzValue="孙女" nzLabel="孙女"></nz-option>
+                                </nz-select>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">身份证号：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" style="width:178px;" [(ngModel)]="person.fq.sfzh" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">性别：</label>
+                                <nz-radio-group [disabled]="isSeeFamily" [(ngModel)]="person.fq.xb">
+                                    <label nz-radio nzValue="男">男</label>
+                                    <label nz-radio nzValue="女">女</label>
+                                </nz-radio-group>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">年龄：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" [(ngModel)]="person.fq.nl" nz-input type="text" style="width:178px;" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">是否在册：</label>
+                                <nz-radio-group [disabled]="isSeeFamily" [(ngModel)]="person.fq.sfzc">
+                                    <label nz-radio nzValue="是">是</label>
+                                    <label nz-radio nzValue="否">否</label>
+                                    <label nz-radio nzValue="其他">其他</label>
+                                </nz-radio-group>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">是否居住：</label>
+                                <nz-radio-group [disabled]="isSeeFamily" [(ngModel)]="person.fq.sfjz">
+                                    <label nz-radio nzValue="是">是</label>
+                                    <label nz-radio nzValue="否">否</label>
+                                </nz-radio-group>
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">工作单位：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" [(ngModel)]="person.fq.gzdw" style="width:178px;" />
+                            </p>
+                            <p class="mform-line" style="margin:9px 0 0 0;">
+                                <label class="lbl" style="width:90px">联系电话：</label>
+                                <input [disabled]="isSeeFamily" class="inp sml" nz-input type="text" [(ngModel)]="person.fq.lxdh" style="width:178px;" />
+                            </p>
+                            <p class="mform-line" style="margin:0px 0 0 0;">
+                                <label class="lbl" style="width:90px"></label>
+                                <label [disabled]="isSeeFamily" nz-checkbox [(ngModel)]="person.fq.zzqyr">主张权益人</label>
+                            </p>
+                            <p class="mform-line" style="margin:0px 0 0 0;">
+                                <label class="lbl" style="width:90px"></label>
+                                <label [disabled]="isSeeFamily" nz-checkbox [(ngModel)]="person.fq.qswjzmr">权属文件证明人</label>
+                            </p>
+                            <p class="mform-line" style="margin:0px 0 0 0;">
+                                <label class="lbl" style="width:90px"></label>
+                                <label [disabled]="isSeeFamily" nz-checkbox [(ngModel)]="person.fq.xsgbzxzf">享受过保障性住房</label>
+                            </p>
+                        </div>
+                    </nz-tab>
+                </nz-tabset>
+            </div>
+            
+            <!-- <div class="ch-family-org">
+                <div class="cy-title">家庭成员结构
+                </div>
+                <div class="cy-content">
+                    <ul class="org">
+                        <li class="ll l1 sel"><span class="dot"></span><a>任务1</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l2"><span class="dot"></span><a>任务2</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l3"><span class="dot"></span><a>任务3</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l2"><span class="dot"></span><a>任务2</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l1"><span class="dot"></span><a>任务1</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l2"><span class="dot"></span><a>任务2</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l3"><span class="dot"></span><a>任务3</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l4"><span class="dot"></span><a>任务4</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l5"><span class="dot"></span><a>任务5</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                        <li class="ll l2"><span class="dot"></span><a>任务2</a><span class="rg-icon"><i nz-icon nzType="plus" nzTheme="outline"></i><i nz-icon nzType="arrow-left" nzTheme="outline"></i><i nz-icon nzType="arrow-right" nzTheme="outline"></i><i nz-icon nzType="delete" nzTheme="outline"></i></span></li>
+                    </ul>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="exa-infor">
+        <div class="mod">
+            <div class="top-head">
+                <p class="mform-line">
+                    <label class="lbl vm" style="color:#fff;">首层面积小计：<br/>（㎡）</label>
+                    <input class="inp sml" nz-input type="text" [(ngModel)]="gf.scmj.hj" />
+                </p>
+            </div>
+            <p class="mform-line special">
+                <label class="lbl vm">所有权证书：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.scmj.syqzs" />
+                <label class="lbl vm">规划审批：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.scmj.ghsp" />
+                <label class="lbl vm">法院文书：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.scmj.fyws" />
+                <label class="lbl vm">公证书：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.scmj.gzs" />
+                <label class="lbl vm">买卖契约：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.scmj.mmqy" />
+                <label class="lbl vm">其他证明：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.scmj.qtzm" />
+            </p>
+        </div>
+
+        <div class="mod">
+            <div class="top-head">
+                <p class="mform-line">
+                    <label class="lbl vm" style="color:#fff;">自建房面积小计：<br/>（㎡）</label>
+                    <input class="inp sml" nz-input type="text" [(ngModel)]="gf.zjfmj.hj" />
+                </p>
+            </div>
+            <p class="mform-line special">
+                <label class="lbl vm">地下：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.zjfmj.dx" />
+                <label class="lbl vm">二层及以上：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.zjfmj.ecjys" />
+                <label class="lbl vm">院外：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.zjfmj.yw" />
+                <label class="lbl vm">经营间数：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.zjfmj.jyjs" />
+                <label class="lbl vm">经营面积：<br/>（㎡）</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.zjfmj.jymj" />
+                <label class="lbl vm">棚房（㎡）：</label>
+                <input class="inp sml" nz-input type="text" [(ngModel)]="gf.zjfmj.pf" />
+            </p>
+        </div>
+
+    </div>
+
+    <app-persons #pers (savePerson)="savePersonList($event)"></app-persons>
+
+    <div style="margin:9px 0 0 0;">
+        <div class="lerror" *ngIf="!sfzh_ok">请输入身份证号！</div>
+        <div class="lerror" *ngIf="!sfzh_mzc">身份证号已被注册！</div>
+        <div class="lerror" *ngIf="!zzqyr_ok">请输入主张权益人姓名！</div>
+        <button nz-button nzType="primary" [nzLoading]="savinghouse" (click)="saveInfo()">保存</button>
+    </div>
+</div>

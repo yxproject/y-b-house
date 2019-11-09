@@ -1,0 +1,168 @@
+<nz-spin nzTip="Loading..." [nzSpinning]="isLoading">
+<nz-table (nzPageIndexChange)="pageChange($event)" [nzPageIndex]="page" [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pagesize" class="full-table" #columnTable [nzData]="listOfData" [nzScroll]="{ x: '1200px' }" nzBordered>
+  <thead>
+    <tr>
+      <th nzWidth="100px" nzLeft="0px">房屋坐落</th>
+      <th nzWidth="200px">基本信息</th>
+      <th nzWidth="200px">房屋信息</th>
+      <th nzWidth="450px">面积信息</th>
+      <th nzWidth="800px">家庭成员</th>
+      <th nzWidth="100px" nzRight="0px">操作</th>
+    </tr>
+
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of listOfData">
+      <td nzLeft="0px">{{r.fwzl}}</td>
+      <td>
+        <b>【房屋序号】:</b>
+        <span class="ntxt">{{r.fwxh}}</span><br/>
+        <b>【房屋坐落】:</b>
+        <span class="ntxt">{{r.fwzl}}</span><br/>
+        <b>【房屋简介】:</b>
+        <span class="ntxt" style="white-space:normal;">{{r.fwjj}}</span>
+      </td>
+      <td>
+          <b>【电话】:</b>
+          <em>{{r.dhs}}</em>部<br/>
+          <b>【空调】:</b>
+          <em>{{r.kts}}</em>台<br/>
+          <b>【有线电视】:</b>
+          <em>{{r.yxdzs}}</em>端<br/>
+          <b>【热水器】:</b>
+          <em>{{r.rsqs}}</em>个<br/>
+      </td>
+      <td>
+          <b>【全院土地面积】:</b>
+          <em>{{r.qytdmj}}</em>㎡
+          <b style="margin-left: 30px;">【房屋面积合计】:</b>
+          <em>{{r.fwmjhj}}</em>㎡<br/>
+          <hr />
+          <fieldset *ngIf="r.scmj" style="width:50%;float:left;padding:0 10px 0 0;">
+            <legend>首层面积</legend>
+            <b>【所有权证书】:</b>
+            <em>{{r.scmj.syqzs}}</em>㎡<br/>
+            <b>【规划审批】:</b>
+            <em>{{r.scmj.ghsp}}</em>㎡<br/>
+            <b>【法院文书】:</b>
+            <em>{{r.scmj.fyws}}</em>㎡<br/>
+            <b>【公证书】:</b>
+            <em>{{r.scmj.gzs}}</em>㎡<br/>
+            <b>【买卖契约】:</b>
+            <em>{{r.scmj.mmqy}}</em>㎡<br/>
+            <b>【其他证明】:</b>
+            <em>{{r.scmj.qtzm}}</em>㎡<br/>
+          </fieldset>
+          <fieldset *ngIf="r.zjfmj" style="width:50%;float:left;padding:0 0px 0 10px;">
+            <legend>自建房面积</legend>
+            <b>【地下】:</b>
+            <em>{{r.zjfmj.dx}}</em>㎡<br/>
+            <b>【二层及以上】:</b>
+            <em>{{r.zjfmj.ecjys}}</em>㎡<br/>
+            <b>【院外】:</b>
+            <em>{{r.zjfmj.yw}}</em>㎡<br/>
+            <b>【经营间数】:</b>
+            <em>{{r.zjfmj.jyjs}}</em>间<br/>
+            <b>【经营面积】:</b>
+            <em>{{r.zjfmj.jymj}}</em>㎡<br/>
+            <b>【棚房】:</b>
+            <em>{{r.zjfmj.pf}}</em>㎡<br/>
+          </fieldset>
+      </td>
+      <td>
+          <b>【被搬迁人数量】:</b>
+          <em>{{r.bbqrsl}}</em> 个
+          <b style="margin-left: 30px;">【被搬迁人代际数】:</b>
+          <em>{{r.bbqdjs}}</em> 代<br/>
+          <hr />
+          <nz-table *ngIf="r.mapdata" #expandTable [nzData]="r.mapdata" [nzShowPagination]="false">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>是否权属证明人</th>
+                <th>是否主张权益人</th>
+                <th>姓名</th>
+                <th>身份证号</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>是否在册</th>
+                <th>是否居住</th>
+                <th>是否享受过保障性住房</th>
+                <th>工作单位</th>
+                <th>联系电话</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let data of expandTable.data">
+                <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+                  <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+                    <td
+                      [nzIndentSize]="item.level * 20"
+                      [nzShowExpand]="!!item.children"
+                      [(nzExpand)]="item.expand"
+                      (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)"
+                    >
+                      {{ item.xm }}({{item.gx}})
+                    </td>
+                    <td [class.light2]="item.qswjzmr">{{item.qswjzmr ? '是' : '否'}}</td>
+                    <td [class.light]="item.zzqyr">{{item.zzqyr ? '是' : '否'}}</td>
+                    <td>{{item.xm}}</td>
+                    <td>{{item.sfzh}}</td>
+                    <td>{{item.xb}}</td>
+                    <td>{{item.nl}}</td>
+                    <td>{{item.sfzc}}</td>
+                    <td>{{item.sfjz}}</td>
+                    <td>{{item.xsgbzxzf ? '是' : '否'}}</td>
+                    <td>{{item.gzdw}}</td>
+                    <td>{{item.lxdh}}</td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+              <!-- <tr *ngFor="let p of basicTable.data">
+                  <td>{{p.gx}}</td>
+                  <td>{{p.xm}}</td>
+                  <td [class.light2]="p.qswjzmr">{{p.qswjzmr ? '是' : '否'}}</td>
+                  <td [class.light]="p.zzqyr">{{p.zzqyr ? '是' : '否'}}</td>
+                  <td>{{p.xm}}</td>
+                  <td>{{p.sfzh}}</td>
+                  <td>{{p.xb}}</td>
+                  <td>{{p.nl}}</td>
+                  <td>{{p.sfzc}}</td>
+                  <td>{{p.sfjz}}</td>
+                  <td>{{p.xsgbzxzf ? '是' : '否'}}</td>
+                  <td>{{p.gzdw}}</td>
+                  <td>{{p.lxdh}}</td>
+              </tr> -->
+            </tbody>
+          </nz-table>
+      </td>
+      <td nzRight="0px">
+        <nz-button-group>
+          <button nz-button (click)="editInfo(r)">
+            <i nz-icon nzType="edit" nzTheme="outline"></i>
+          </button>
+          <button nz-popconfirm nzPopconfirmTitle="您确定要删除信息吗?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteInfo(r)" nz-button nzType="danger">
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </button>
+        </nz-button-group>
+      </td>
+    </tr>
+    <!-- <tr *ngFor="let data of columnTable.data">
+        <td nzLeft="0px">{{ data.name }}</td>
+        <td>{{ data.age }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td>{{ data.address }}</td>
+        <td nzRight="0px">
+          <a>action</a>
+        </td>
+      </tr> -->
+  </tbody>
+</nz-table>
+</nz-spin>
